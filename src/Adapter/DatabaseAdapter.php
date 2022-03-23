@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Tinywan\Casbin\Adapter;
+namespace Casbin\WebmanPermission\Adapter;
 
 use Casbin\Model\Model;
 use Casbin\Persist\Adapter;
@@ -19,7 +19,7 @@ use Casbin\Persist\FilteredAdapter;
 use Casbin\Persist\Adapters\Filter;
 use Casbin\Exceptions\InvalidFilterTypeException;
 use think\facade\Db;
-use Tinywan\Casbin\Model\RuleModel;
+use Casbin\WebmanPermission\Model\RuleModel;
 
 /**
  * DatabaseAdapter.

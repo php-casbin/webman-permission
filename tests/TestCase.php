@@ -5,10 +5,10 @@
  * @date 2022/1/13 11:07
  */
 
-namespace Tinywan\Tests;
+namespace Casbin\WebmanPermission\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Tinywan\Casbin\Model\RuleModel;
+use Casbin\WebmanPermission\Model\RuleModel;
 
 class TestCase extends BaseTestCase
 {

@@ -7,20 +7,20 @@
 
 declare(strict_types=1);
 
-namespace Tinywan\Casbin;
+namespace Casbin\WebmanPermission;
 
 
 use Casbin\Enforcer;
 use Casbin\Exceptions\CasbinException;
 use Casbin\Model\Model;
 use support\Container;
-use Tinywan\Casbin\Watcher\RedisWatcher;
+use Casbin\WebmanPermission\Watcher\RedisWatcher;
 use Workerman\Worker;
 use Webman\Bootstrap;
 
 /**
  * @see \Casbin\Enforcer
- * @mixin \Casbin\Enforcer
+ * @mixin Enforcer
  * @method static enforce(mixed ...$rvals) 权限检查，输入参数通常是(sub, obj, act)
  * @method static bool addPolicy(mixed ...$params) 当前策略添加授权规则
  * @method static bool addPolicies(mixed ...$params) 当前策略添加授权规则
@@ -61,15 +61,15 @@ class Permission implements Bootstrap
     public static function start($worker)
     {
         if ($worker) {
-            $configType = config('plugin.tinywan.casbin.permission.basic.model.config_type');
+            $configType = config('plugin.casbin.webman-permission.permission.basic.model.config_type');
             $model = new Model();
             if ('file' == $configType) {
-                $model->loadModel(config('plugin.tinywan.casbin.permission.basic.model.config_file_path'));
+                $model->loadModel(config('plugin.casbin.webman-permission.permission.basic.model.config_file_path'));
             } elseif ('text' == $configType) {
-                $model->loadModel(config('plugin.tinywan.casbin.permission.basic.model.config_text'));
+                $model->loadModel(config('plugin.casbin.webman-permission.permission.basic.model.config_text'));
             }
             if (is_null(static::$_manager)) {
-                static::$_manager = new Enforcer($model, Container::get(config('plugin.tinywan.casbin.permission.basic.adapter')),false);
+                static::$_manager = new Enforcer($model, Container::get(config('plugin.casbin.webman-permission.permission.basic.adapter')),false);
             }
 
             $watcher = new RedisWatcher(config('redis.default'));

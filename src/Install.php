@@ -1,5 +1,5 @@
 <?php
-namespace Tinywan\Casbin;
+namespace Casbin\WebmanPermission;
 
 class Install
 {
@@ -8,7 +8,9 @@ class Install
     /**
      * @var array
      */
-    protected static $pathRelation = array ('config/plugin/tinywan/casbin' => 'config/plugin/tinywan/casbin');
+    protected static $pathRelation = array (
+    'config/plugin/casbin/webman-permission' => 'config/plugin/casbin/webman-permission',
+    );
 
     /**
      * Install
@@ -43,6 +45,8 @@ class Install
             }
             //symlink(__DIR__ . "/$source", base_path()."/$dest");
             copy_dir(__DIR__ . "/$source", base_path()."/$dest");
+            echo "Create $dest
+";
         }
     }
 
@@ -57,9 +61,12 @@ class Install
             if (!is_dir($path) && !is_file($path)) {
                 continue;
             }
-            /*if (is_link($path) {
+            echo "Remove $dest
+";
+            if (is_file($path) || is_link($path)) {
                 unlink($path);
-            }*/
+                continue;
+            }
             remove_dir($path);
         }
     }

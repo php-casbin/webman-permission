@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Tinywan\Casbin\Model;
+namespace Casbin\WebmanPermission\Model;
 
 use think\Model;
 use think\contract\Arrayable;

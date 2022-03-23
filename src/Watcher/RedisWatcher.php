@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Tinywan\Casbin\Watcher;
+namespace Casbin\WebmanPermission\Watcher;
 
 
 use Casbin\Persist\Watcher;
