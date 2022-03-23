@@ -4,8 +4,8 @@
 [![Total Downloads](http://poser.pugx.org/tinywan/casbin/downloads)](https://packagist.org/packages/tinywan/casbin) 
 [![License](http://poser.pugx.org/tinywan/casbin/license)](https://packagist.org/packages/tinywan/casbin) 
 [![PHP Version Require](http://poser.pugx.org/tinywan/casbin/require/php)](https://packagist.org/packages/tinywan/casbin)
-[![webman-event](https://img.shields.io/github/last-commit/tinywan/casbin/main)]()
-[![webman-event](https://img.shields.io/github/v/tag/tinywan/casbin?color=ff69b4)]()
+[![Main](https://img.shields.io/github/last-commit/php-casbin/webman-permission/main)]()
+[![webman-permission](https://img.shields.io/github/v/tag/php-casbin/webman-permission?color=ff69b4)]()
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
