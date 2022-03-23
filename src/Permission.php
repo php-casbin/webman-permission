@@ -48,9 +48,9 @@ use Webman\Bootstrap;
 class Permission implements Bootstrap
 {
     /**
-     * @var $_manager
+     * @var Enforcer|null $_manager
      */
-    protected static $_manager = null;
+    protected static ?Enforcer $_manager = null;
 
     /**
      * @param Worker $worker

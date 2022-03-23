@@ -10,7 +10,7 @@ return [
         # Model 设置
         'model' => [
             'config_type' => 'file',
-            'config_file_path' => config_path() . '/plugin/tinywan/casbin/rbac-model.conf',
+            'config_file_path' => config_path() . '/plugin/casbin/webman-permission/rbac-model.conf',
             'config_text' => '',
         ],
         # 适配器

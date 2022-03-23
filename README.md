@@ -17,7 +17,7 @@ An authorization library that supports access control models like ACL, RBAC, ABA
 ## Installation
 
 ```sh
-composer require tinywan/casbin
+composer require casbin/webman-permission
 ```
 
 ## Configure

@@ -39,7 +39,7 @@ class RuleModel extends Model implements Arrayable
      * @access public
      * @param array $data 数据
      */
-    public function __construct($data = [])
+    public function __construct(array $data = [])
     {
         $this->connection = $this->config('database.connection') ?: '';
         $this->table = $this->config('database.rules_table');
@@ -57,7 +57,7 @@ class RuleModel extends Model implements Arrayable
      */
     protected function config(string $key = null, $default = null)
     {
-        $driver = config('plugin.tinywan.casbin.permission.default');
-        return config('plugin.tinywan.casbin.permission.' . $driver . '.' . $key, $default);
+        $driver = config('plugin.casbin.webman-permission.permission.default');
+        return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
     }
 }
