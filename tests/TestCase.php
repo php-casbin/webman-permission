@@ -1,6 +1,6 @@
 <?php
 /**
- * @desc TestCase.php 描述信息
+ * @desc TestCase.php
  * @author Tinywan(ShaoBo Wan)
  * @date 2022/1/13 11:07
  */

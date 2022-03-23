@@ -1,4 +1,5 @@
 <?php
+
 namespace Casbin\WebmanPermission;
 
 class Install

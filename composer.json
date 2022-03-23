@@ -1,6 +1,23 @@
 {
   "name": "casbin/webman-permission",
-  "description": "webman casbin permission Plugin",
+  "keywords": [
+    "webman",
+    "casbin",
+    "permission",
+    "access-control",
+    "authorization",
+    "rbac",
+    "acl",
+    "abac",
+    "authz"
+  ],
+  "description": "webman casbin permission plugin",
+  "authors": [
+    {
+      "name": "Tinywan",
+      "email": "756684177@qq.com"
+    }
+  ],
   "type": "library",
   "license": "MIT",
   "require": {
