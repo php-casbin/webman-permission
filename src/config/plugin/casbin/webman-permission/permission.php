@@ -10,12 +10,12 @@ return [
         # Model 设置
         'model' => [
             'config_type' => 'file',
-            'config_file_path' => config_path() . '/plugin/casbin/webman-permission/rbac-model.conf',
+            'config_file_path' => config_path() . 'ugin/casbin/webman-permission/rbac-model.conf',
             'config_text' => '',
         ],
         # 适配器
-        'adapter' => Casbin\WebmanPermission\Adapter\DatabaseAdapter::class,
-        // 'adapter' => Casbin\WebmanPermission\Adapter\LaravelDatabaseAdapter::class,
+        'adapter' => Casbin\WebmanPermission\Adapter\DatabaseAdapter::class, // ThinkORM 适配器
+        // 'adapter' => Casbin\WebmanPermission\Adapter\LaravelDatabaseAdapter::class, // Laravel 适配器
         'database' => [
             'connection' => '',
             'rules_table' => 'casbin_rule',
