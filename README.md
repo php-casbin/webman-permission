@@ -1,10 +1,6 @@
 # webman casbin plugin
 
-[![Latest Stable Version](http://poser.pugx.org/tinywan/casbin/v)](https://packagist.org/packages/tinywan/casbin) 
-[![Total Downloads](http://poser.pugx.org/tinywan/casbin/downloads)](https://packagist.org/packages/tinywan/casbin) 
-[![License](http://poser.pugx.org/tinywan/casbin/license)](https://packagist.org/packages/tinywan/casbin) 
-[![PHP Version Require](http://poser.pugx.org/tinywan/casbin/require/php)](https://packagist.org/packages/tinywan/casbin)
-[![Main](https://img.shields.io/github/last-commit/php-casbin/webman-permission/main)]()
+[![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) [![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission) [![Latest Unstable Version](http://poser.pugx.org/casbin/webman-permission/v/unstable)](https://packagist.org/packages/casbin/webman-permission) [![License](http://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission) [![PHP Version Require](http://poser.pugx.org/casbin/webman-permission/require/php)](https://packagist.org/packages/casbin/webman-permission) [![Main](https://img.shields.io/github/last-commit/php-casbin/webman-permission/main)]()
 [![webman-permission](https://img.shields.io/github/v/tag/php-casbin/webman-permission?color=ff69b4)]()
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
