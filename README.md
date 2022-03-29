@@ -7,8 +7,17 @@ An authorization library that supports access control models like ACL, RBAC, ABA
 
 ## Requirements
 
-- [ThinkORM](https://www.workerman.net/doc/webman/db/others.html)
+### common
+
 - [PHP-DI](https://github.com/PHP-DI/PHP-DI)
+
+### ThinkORM（默认）
+
+- [ThinkORM](https://www.workerman.net/doc/webman/db/others.html)
+
+### Laravel数据库
+
+- [illuminate/database](https://www.workerman.net/doc/webman/db/tutorial.html)
 
 ## Installation
 
