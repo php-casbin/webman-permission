@@ -37,10 +37,10 @@ return $builder->build();
 
 #### 🚀 (1) 模型配置
 
-📒📒📒 **使用ThinkORM（默认）**📒📒📒
+📒📒📒 **使用ThinkORM（默认）** 📒📒📒
   - 修改数据库 `thinkorm.php` 配置
 
-📕📕📕 **使用laravel数据库（可选）**📕📕📕
+📕📕📕 **使用laravel数据库（可选）** 📕📕📕
   - 修改数据库 `database.php` 配置
   - 修改数据库 `permission.php` 的`adapter`适配器为laravel适配器
 
