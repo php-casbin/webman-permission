@@ -230,7 +230,7 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
             $item = $model->hidden(['id', 'ptype'])->toArray();
             $item = $this->filterRule($item);
             $removedRules[] = $item;
-            if ($model->cache('tauthz')->delete()) {
+            if ($model->delete()) {
                 ++$count;
             }
         }

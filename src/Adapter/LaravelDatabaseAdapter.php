@@ -19,8 +19,8 @@ use Casbin\Persist\FilteredAdapter;
 use Casbin\Persist\Adapters\Filter;
 use Casbin\Exceptions\InvalidFilterTypeException;
 use Casbin\WebmanPermission\Model\LaravelRuleModel;
-use Casbin\WebmanPermission\Model\RuleModel;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * DatabaseAdapter.
@@ -41,16 +41,35 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      *
      * @var LaravelRuleModel
      */
-    protected $model;
+    protected LaravelRuleModel $model;
 
     /**
-     * the DatabaseAdapter constructor.
-     *
-     * @param RuleModel $model
+     * LaravelDatabaseAdapter constructor.
+     * @param LaravelRuleModel $model
      */
-    public function __construct(RuleModel $model)
+    public function __construct(LaravelRuleModel $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Filter the rule.
+     *
+     * @param array $rule
+     * @return array
+     */
+    public function filterRule(array $rule): array
+    {
+        $rule = array_values($rule);
+
+        $i = count($rule) - 1;
+        for (; $i >= 0; $i--) {
+            if ($rule[$i] != '' && !is_null($rule[$i])) {
+                break;
+            }
+        }
+
+        return array_slice($rule, 0, $i + 1);
     }
 
     /**
@@ -161,6 +180,40 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
         }
         $instance->delete();
         LaravelRuleModel::fireModelEvent('deleted');
+    }
+
+    /**
+     * @param string      $sec
+     * @param string      $ptype
+     * @param int         $fieldIndex
+     * @param string|null ...$fieldValues
+     * @return array
+     * @throws Throwable
+     */
+    public function _removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, ?string ...$fieldValues): array
+    {
+        $count = 0;
+        $removedRules = [];
+
+        $instance = $this->model->where('ptype', $ptype);
+        foreach (range(0, 5) as $value) {
+            if ($fieldIndex <= $value && $value < $fieldIndex + count($fieldValues)) {
+                if ('' != $fieldValues[$value - $fieldIndex]) {
+                    $instance->where('v' . strval($value), $fieldValues[$value - $fieldIndex]);
+                }
+            }
+        }
+
+        foreach ($instance->select() as $model) {
+            $item = $model->hidden(['id', 'ptype'])->toArray();
+            $item = $this->filterRule($item);
+            $removedRules[] = $item;
+            if ($model->cache('tauthz')->delete()) {
+                ++$count;
+            }
+        }
+
+        return $removedRules;
     }
 
     /**
@@ -315,12 +368,14 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
             throw new InvalidFilterTypeException('invalid filter type');
         }
         $rows = $instance->get()->makeHidden(['created_at','updated_at', 'id'])->toArray();
-        foreach ($rows as $row) {
-            $row = array_filter($row, function($value) { return !is_null($value) && $value !== ''; });
-            $line = implode(', ', array_filter($row, function ($val) {
-                return '' != $val && !is_null($val);
-            }));
-            $this->loadPolicyLine(trim($line), $model);
+        if ($rows) {
+            foreach ($rows as $row) {
+                $row = array_filter($row, function($value) { return !is_null($value) && $value !== ''; });
+                $line = implode(', ', array_filter($row, function ($val) {
+                    return '' != $val && !is_null($val);
+                }));
+                $this->loadPolicyLine(trim($line), $model);
+            }
         }
         $this->setFiltered(true);
     }
