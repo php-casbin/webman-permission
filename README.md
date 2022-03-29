@@ -10,14 +10,8 @@ An authorization library that supports access control models like ACL, RBAC, ABA
 ### common
 
 - [PHP-DI](https://github.com/PHP-DI/PHP-DI)
-
-### ThinkORM（默认）
-
-- [ThinkORM](https://www.workerman.net/doc/webman/db/others.html)
-
-### Laravel数据库
-
-- [illuminate/database](https://www.workerman.net/doc/webman/db/tutorial.html)
+- [ThinkORM](https://www.workerman.net/doc/webman/db/others.html)（默认）
+- [illuminate/database](https://www.workerman.net/doc/webman/db/tutorial.html)（可选）
 
 ## Installation
 
@@ -40,10 +34,15 @@ return $builder->build();
 
 ### 2、Database configuration
 
-（1）修改数据库 `thinkorm` 配置
+#### （1）模型配置
 
-（2）创建 `casbin_rule` 数据表
+- 使用ThinkORM（默认）
+  - 修改数据库 `thinkorm.php` 配置
+- 使用laravel数据库（可选）
+  - 修改数据库 `database.php` 配置
+  - 修改数据库 `permission.php` 的`adapter`适配器为laravel适配器
 
+#### （2）创建 `casbin_rule` 数据表
 ```sql
 CREATE TABLE `casbin_rule` (
 	`id` BIGINT ( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -64,7 +63,8 @@ CREATE TABLE `casbin_rule` (
     KEY `idx_v5` ( `v5` ) USING BTREE 
 ) ENGINE = INNODB CHARSET = utf8mb4 COMMENT = '策略规则表';
 ```
-（3）配置 `config/redis` 配置
+
+#### （3）配置 `config/redis` 配置
 
 ## 重启webman
 
