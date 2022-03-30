@@ -19,6 +19,13 @@ use Illuminate\Database\Eloquent\Model;
 class LaravelRuleModel extends Model
 {
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * a cache store.
      *
      * @var Repository
