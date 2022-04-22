@@ -84,7 +84,7 @@ php start.php restart -d
 安装成功后，可以这样使用:
 
 ```php
-use Tinywan\Casbin\Permission;
+use Casbin\WebmanPermission\Permission;
 
 // adds permissions to a user
 Permission::addPermissionForUser('eve', 'articles', 'read');
