@@ -13,7 +13,7 @@ An authorization library that supports access control models like ACL, RBAC, ABA
 ## 安装
 
 ```sh
-composer require casbin/webman-permission
+composer require -W casbin/webman-permission
 ```
 
 ## 使用
