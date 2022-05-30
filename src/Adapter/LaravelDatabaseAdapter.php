@@ -98,10 +98,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     {
         $rows = $this->model->getAllFromCache();
         foreach ($rows as $row) {
-            $line = implode(', ', array_filter(array_slice($row, 1), function ($val) {
-                return '' != $val && !is_null($val);
-            }));
-            $this->loadPolicyLine(trim($line), $model);
+            $this->loadPolicyArray($this->filterRule($row), $model);
         }
     }
 
