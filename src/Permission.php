@@ -61,15 +61,16 @@ class Permission implements Bootstrap
     public static function start($worker)
     {
         if ($worker) {
-            $configType = config('plugin.casbin.webman-permission.permission.basic.model.config_type');
+            $driver = config('plugin.casbin.webman-permission.permission.default');
+            $config = config('plugin.casbin.webman-permission.permission.'.$driver);
             $model = new Model();
-            if ('file' == $configType) {
-                $model->loadModel(config('plugin.casbin.webman-permission.permission.basic.model.config_file_path'));
-            } elseif ('text' == $configType) {
-                $model->loadModel(config('plugin.casbin.webman-permission.permission.basic.model.config_text'));
+            if ('file' == $config['model']['config_type']) {
+                $model->loadModel($config['model']['config_file_path']);
+            } elseif ('text' == $config['model']['config_type']) {
+                $model->loadModel($config['model']['config_text']);
             }
             if (is_null(static::$_manager)) {
-                static::$_manager = new Enforcer($model, Container::get(config('plugin.casbin.webman-permission.permission.basic.adapter')),false);
+                static::$_manager = new Enforcer($model, Container::get($config['adapter']),false);
             }
 
             $watcher = new RedisWatcher(config('redis.default'));
