@@ -110,7 +110,9 @@ if (Permission::enforce("eve", "articles", "edit")) {
 
 [Casbin](https://github.com/php-casbin/php-casbin)，你可以查看全部文档在其 [官网](https://casbin.org/) 上。
 
-## ~~解除 [PHP-DI](https://github.com/PHP-DI/PHP-DI) 依赖的解决方案（不推荐）~~
+<details>
+	
+<summary> 解除 https://github.com/PHP-DI/PHP-DI依赖的解决方案（不推荐）</summary>
 
 1、卸载DI依赖包：`composer remove php-di/php-di`
 
@@ -133,3 +135,4 @@ if (is_null(static::$_manager)) {
 }
 ```
 耦合太高，不建议这么搞，更多了解：https://www.workerman.net/doc/webman/di.html
+</details>
