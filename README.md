@@ -106,6 +106,28 @@ if (Permission::enforce("eve", "articles", "edit")) {
 
 更多 `API` 参考 [Casbin API](https://casbin.org/docs/en/management-api) 。
 
+## 其他
+
+解除 [PHP-DI](https://github.com/PHP-DI/PHP-DI) 依赖的解决方案
+
+```php
+if (is_null(static::$_manager)) {
+    static::$_manager = new Enforcer($model, Container::get($config['adapter']),false);
+}
+```
+替换为
+```php
+if (is_null(static::$_manager)) {
+    if ($config['adapter'] == DatabaseAdapter::class) {
+        $_model = new RuleModel();
+    } elseif ($config['adapter'] == LaravelDatabaseAdapter::class) {
+        $_model = new LaravelRuleModel();
+    }
+    static::$_manager = new Enforcer($model,  new $config['adapter']($_model), false);
+}
+```
+耦合太高，不建议这么搞，更多了解：https://www.workerman.net/doc/webman/di.html
+
 ## 感谢
 
 [Casbin](https://github.com/php-casbin/php-casbin)，你可以查看全部文档在其 [官网](https://casbin.org/) 上。
