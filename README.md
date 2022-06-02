@@ -1,6 +1,11 @@
 # webman casbin plugin
 
-[![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) [![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission) [![Latest Unstable Version](http://poser.pugx.org/casbin/webman-permission/v/unstable)](https://packagist.org/packages/casbin/webman-permission) [![License](http://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission) [![PHP Version Require](http://poser.pugx.org/casbin/webman-permission/require/php)](https://packagist.org/packages/casbin/webman-permission)
+[![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) 
+[![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission)
+[![Daily Downloads](http://poser.pugx.org/casbin/webman-permission/d/daily)](https://packagist.org/packages/casbin/webman-permission)
+[![Latest Unstable Version](http://poser.pugx.org/casbin/webman-permission/v/unstable)](https://packagist.org/packages/casbin/webman-permission) 
+[![License](http://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission) 
+[![PHP Version Require](http://poser.pugx.org/casbin/webman-permission/require/php)](https://packagist.org/packages/casbin/webman-permission)
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
