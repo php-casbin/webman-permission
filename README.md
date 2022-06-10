@@ -1,6 +1,11 @@
 # webman casbin plugin
 
-[![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) [![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission) [![Latest Unstable Version](http://poser.pugx.org/casbin/webman-permission/v/unstable)](https://packagist.org/packages/casbin/webman-permission) [![License](http://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission) [![PHP Version Require](http://poser.pugx.org/casbin/webman-permission/require/php)](https://packagist.org/packages/casbin/webman-permission)
+[![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) 
+[![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission)
+[![Daily Downloads](http://poser.pugx.org/casbin/webman-permission/d/daily)](https://packagist.org/packages/casbin/webman-permission)
+[![Latest Unstable Version](http://poser.pugx.org/casbin/webman-permission/v/unstable)](https://packagist.org/packages/casbin/webman-permission) 
+[![License](http://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission) 
+[![PHP Version Require](http://poser.pugx.org/casbin/webman-permission/require/php)](https://packagist.org/packages/casbin/webman-permission)
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
@@ -110,7 +115,9 @@ if (Permission::enforce("eve", "articles", "edit")) {
 
 [Casbin](https://github.com/php-casbin/php-casbin)，你可以查看全部文档在其 [官网](https://casbin.org/) 上。
 
-## ~~解除 [PHP-DI](https://github.com/PHP-DI/PHP-DI) 依赖的解决方案（不推荐）~~
+<details>
+	
+<summary> 解除 https://github.com/PHP-DI/PHP-DI依赖的解决方案（不推荐）</summary>
 
 1、卸载DI依赖包：`composer remove php-di/php-di`
 
@@ -133,3 +140,4 @@ if (is_null(static::$_manager)) {
 }
 ```
 耦合太高，不建议这么搞，更多了解：https://www.workerman.net/doc/webman/di.html
+</details>
