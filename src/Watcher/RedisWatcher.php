@@ -18,9 +18,9 @@ class RedisWatcher implements Watcher
 {
     private Closure $callback;
 
-    private $pubRedis;
+    private Client $pubRedis;
 
-    private $subRedis;
+    private Client $subRedis;
 
     private $channel;
     /**
@@ -86,12 +86,7 @@ class RedisWatcher implements Watcher
      */
     private function createRedisClient(array $config): Client
     {
-        $config['host'] = $config['host'] ?? '127.0.0.1';
-        $config['port'] = $config['port'] ?? 6379;
-        $config['password'] = $config['password'] ?? '';
-        $config['database'] = $config['database'] ?? 0;
-
-        $redis = new Client('redis://' . $config['host'] . ':' . $config['port']);
+        $redis = new Client('redis://' . $config['host'] ?? '127.0.0.1' . ':' . $config['port'] ?? 6379);
         $redis->auth($config['password'] ?? '');
 
         return $redis;
