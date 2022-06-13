@@ -86,7 +86,7 @@ class RedisWatcher implements Watcher
      */
     private function createRedisClient(array $config): Client
     {
-        $redis = new Client('redis://' . $config['host'] ?? '127.0.0.1' . ':' . $config['port'] ?? 6379);
+        $redis = new Client('redis://' . ($config['host'] ?? '127.0.0.1') . ':' . ($config['port'] ?? 6379));
         $redis->auth($config['password'] ?? '');
 
         return $redis;
