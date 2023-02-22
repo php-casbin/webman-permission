@@ -35,11 +35,11 @@ class RedisWatcher implements Watcher
      *     'channel' => '/casbin',
      * ]
      */
-    public function __construct(array $config)
+    public function __construct(array $config, string $driver)
     {
         $this->pubRedis = $this->createRedisClient($config);
         $this->subRedis = $this->createRedisClient($config);
-        $this->channel = $config['channel'] ?? '/casbin';
+        $this->channel = ($config['channel'] ?? '/casbin') . '/' . $driver;
 
         $this->subRedis->subscribe([$this->channel], function ($channel, $message) {
             if ($this->callback) {

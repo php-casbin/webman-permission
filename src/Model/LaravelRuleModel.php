@@ -10,11 +10,12 @@ declare(strict_types=1);
 
 namespace Casbin\WebmanPermission\Model;
 
-use Illuminate\Cache\Repository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * RuleModel Model
+ *
+ * @inheritDoc
  */
 class LaravelRuleModel extends Model
 {
@@ -26,33 +27,24 @@ class LaravelRuleModel extends Model
     public $timestamps = false;
 
     /**
-     * a cache store.
-     *
-     * @var Repository
-     */
-    protected Repository $store;
-
-    /**
      * Fillable.
      *
      * @var array
      */
     protected $fillable = ['ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5'];
 
-    /**
-     * the guard for lauthz.
-     *
-     * @var string
-     */
-    protected string $guard;
+
+    /** @var string $driver */
+    protected string $driver;
 
     /**
      * 架构函数
      * @access public
      * @param array $data 数据
      */
-    public function __construct(array $data = [])
+    public function __construct(array $data = [], ?string $driver = null)
     {
+        $this->driver = $driver;
         $connection = $this->config('database.connection') ?: config('database.default');
         $this->setConnection($connection);
         $this->setTable($this->config('database.rules_table'));
@@ -69,24 +61,7 @@ class LaravelRuleModel extends Model
      */
     protected function config(string $key = null, $default = null)
     {
-        $driver = config('plugin.casbin.webman-permission.permission.default');
+        $driver = $this->driver ?? config('plugin.casbin.webman-permission.permission.default');
         return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
-    }
-
-    /**
-     * Gets rules from caches.
-     *
-     * @return mixed
-     */
-    public function getAllFromCache()
-    {
-        $get = function () {
-            return $this->select('ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5')->get()->toArray();
-        };
-        if (!$this->config('cache.enabled', false)) {
-            return $get();
-        }
-
-        return $this->store->remember($this->config('cache.key'), $this->config('cache.ttl'), $get);
     }
 }
