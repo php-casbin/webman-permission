@@ -56,12 +56,13 @@ class Permission
      */
     public static function client(?string $driver = null): Enforcer
     {
+        $driver = $driver ?? config('plugin.casbin.webman-permission.permission.default');
+        $config = config('plugin.casbin.webman-permission.permission.'.$driver);
+        
         if(isset(static::$_manager[$driver])){
             return static::$_manager[$driver];
         }
 
-        $driver = $driver ?? config('plugin.casbin.webman-permission.permission.default');
-        $config = config('plugin.casbin.webman-permission.permission.'.$driver);
         $model = new Model();
         if ('file' == $config['model']['config_type']) {
             $model->loadModel($config['model']['config_file_path']);
