@@ -49,7 +49,7 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      */
     public function __construct(?string $driver = null)
     {
-        $this->model = new RuleModel($driver);
+        $this->model = new RuleModel([], $driver);
     }
 
     /**
