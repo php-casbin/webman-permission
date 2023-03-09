@@ -19,6 +19,8 @@ use Casbin\Persist\FilteredAdapter;
 use Casbin\Persist\Adapters\Filter;
 use Casbin\Exceptions\InvalidFilterTypeException;
 use Casbin\WebmanPermission\Model\LaravelRuleModel;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -45,11 +47,12 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
 
     /**
      * LaravelDatabaseAdapter constructor.
-     * @param LaravelRuleModel $model
+     *
+     * @param  string|null  $driver
      */
-    public function __construct(LaravelRuleModel $model)
+    public function __construct(?string $driver = null)
     {
-        $this->model = $model;
+        $this->model = new LaravelRuleModel([],$driver);
     }
 
     /**
@@ -84,9 +87,9 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     {
         $col['ptype'] = $ptype;
         foreach ($rule as $key => $value) {
-            $col['v' . strval($key) . ''] = $value;
+            $col['v' . $key] = $value;
         }
-        $this->model->create($col);
+        $this->model->updateOrCreate($col);
     }
 
     /**
@@ -96,7 +99,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function loadPolicy(Model $model): void
     {
-        $rows = $this->model->getAllFromCache();
+        $rows = $this->model->select(['ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5'])->get()->toArray();;
         foreach ($rows as $row) {
             $this->loadPolicyArray($this->filterRule($row), $model);
         }
@@ -145,21 +148,13 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function addPolicies(string $sec, string $ptype, array $rules): void
     {
-        $cols = [];
-        $i = 0;
-
         foreach ($rules as $rule) {
-            $temp['ptype'] = $ptype;
-            $temp['created_at'] = date("Y-m-d h:m:i");
-            $temp['updated_at'] = $temp['created_at'];
+            $temp = ['ptype' => $ptype];
             foreach ($rule as $key => $value) {
-                $temp['v' . strval($key)] = $value;
+                $temp['v' . $key] = $value;
             }
-            $cols[$i++] = $temp ?? [];
-            $temp = [];
+            $this->model->updateOrCreate($temp);
         }
-        $this->model->insert($cols);
-        LaravelRuleModel::fireModelEvent('saved');
     }
 
     /**
@@ -173,10 +168,12 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     {
         $instance = $this->model->where('ptype', $ptype);
         foreach ($rule as $key => $value) {
-            $instance->where('v' . strval($key), $value);
+            $instance->where('v' . $key, $value);
         }
-        $instance->delete();
-        LaravelRuleModel::fireModelEvent('deleted');
+        $data = $instance->get();
+        foreach ($data as $item) {
+            $item->delete();
+        }
     }
 
     /**
@@ -189,25 +186,13 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function _removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, ?string ...$fieldValues): array
     {
-        $count = 0;
         $removedRules = [];
+        $data         = $this->getCollection($ptype, $fieldIndex, $fieldValues);
 
-        $instance = $this->model->where('ptype', $ptype);
-        foreach (range(0, 5) as $value) {
-            if ($fieldIndex <= $value && $value < $fieldIndex + count($fieldValues)) {
-                if ('' != $fieldValues[$value - $fieldIndex]) {
-                    $instance->where('v' . strval($value), $fieldValues[$value - $fieldIndex]);
-                }
-            }
-        }
-
-        foreach ($instance->select() as $model) {
-            $item = $model->hidden(['id', 'ptype'])->toArray();
-            $item = $this->filterRule($item);
+        foreach ($data as $model) {
+            $item           = $model->hidden(['id', 'ptype'])->toArray();
+            $item           = $this->filterRule($item);
             $removedRules[] = $item;
-            if ($model->cache('tauthz')->delete()) {
-                ++$count;
-            }
         }
 
         return $removedRules;
@@ -241,22 +226,10 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, string ...$fieldValues): void
     {
-        $instance = $this->model->where('ptype', $ptype);
-        foreach (range(0, 5) as $value) {
-            if ($fieldIndex <= $value && $value < $fieldIndex + count($fieldValues)) {
-                if ('' != $fieldValues[$value - $fieldIndex]) {
-                    $instance->where('v' . strval($value), $fieldValues[$value - $fieldIndex]);
-                }
-            }
+        $data = $this->getCollection($ptype, $fieldIndex, $fieldValues);
+        foreach ($data as $item) {
+            $item->delete();
         }
-
-        $oldP = $instance->get()->makeHidden(['created_at','updated_at', 'id', 'ptype'])->toArray();
-        foreach ($oldP as &$item) {
-            $item = $this->filterRule($item);
-            $removedRules[] = $item;
-        }
-        $instance->delete();
-        LaravelRuleModel::fireModelEvent('deleted');
     }
 
     /**
@@ -272,7 +245,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     {
         $instance = $this->model->where('ptype', $ptype);
         foreach ($oldRule as $key => $value) {
-            $instance->where('v' . strval($key), $value);
+            $instance->where('v' . $key, $value);
         }
         $instance = $instance->first();
 
@@ -281,8 +254,8 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
             $update['v' . $key] = $value;
         }
 
-        $instance->update($update);
-        LaravelRuleModel::fireModelEvent('saved');
+        $instance->fill($update);
+        $instance->save();
     }
 
     /**
@@ -316,7 +289,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     public function updateFilteredPolicies(string $sec, string $ptype, array $newPolicies, int $fieldIndex, string ...$fieldValues): array
     {
         $oldRules = [];
-        \Illuminate\Support\Facades\DB::transaction(function () use ($sec, $ptype, $fieldIndex, $fieldValues, $newPolicies, &$oldRules) {
+        DB::transaction(function () use ($sec, $ptype, $fieldIndex, $fieldValues, $newPolicies, &$oldRules) {
             $oldRules = $this->_removeFilteredPolicy($sec, $ptype, $fieldIndex, ...$fieldValues);
             $this->addPolicies($sec, $ptype, $newPolicies);
         });
@@ -346,34 +319,67 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     /**
      * Loads only policy rules that match the filter.
      *
-     * @param Model $model
-     * @param mixed $filter
+     * @param  Model  $model
+     * @param  mixed  $filter
+     *
+     * @throws InvalidFilterTypeException
      */
     public function loadFilteredPolicy(Model $model, $filter): void
     {
         $instance = $this->model;
         if (is_string($filter)) {
-            $instance = $instance->whereRaw($filter);
-        } elseif ($filter instanceof Filter) {
+            $instance->whereRaw($filter);
+        }
+        elseif ($filter instanceof Filter) {
+            $where = [];
             foreach ($filter->p as $k => $v) {
                 $where[$v] = $filter->g[$k];
-                $instance = $instance->where($v, $filter->g[$k]);
             }
-        } elseif ($filter instanceof \Closure) {
+            $instance->where($where);
+        }
+        elseif ($filter instanceof Closure) {
             $instance = $instance->where($filter);
-        } else {
+        }
+        else {
             throw new InvalidFilterTypeException('invalid filter type');
         }
-        $rows = $instance->get()->makeHidden(['created_at','updated_at', 'id'])->toArray();
+        $rows = $instance->get()->makeHidden(['created_at', 'updated_at', 'id'])->toArray();
         if ($rows) {
             foreach ($rows as $row) {
-                $row = array_filter($row, function($value) { return !is_null($value) && $value !== ''; });
-                $line = implode(', ', array_filter($row, function ($val) {
-                    return '' != $val && !is_null($val);
-                }));
+                $row  = array_filter($row, function ($value) {
+                    return !is_null($value) && $value !== '';
+                });
+                $line = implode(
+                    ', ',
+                    array_filter($row, function ($val) {
+                        return '' != $val && !is_null($val);
+                    })
+                );
                 $this->loadPolicyLine(trim($line), $model);
             }
         }
         $this->setFiltered(true);
+    }
+
+    /**
+     * @param  string  $ptype
+     * @param  int     $fieldIndex
+     * @param  array   $fieldValues
+     *
+     * @return Builder[]|Collection
+     */
+    protected function getCollection(string $ptype, int $fieldIndex, array $fieldValues) {
+        $where = [
+            'ptype' => $ptype,
+        ];
+        foreach (range(0, 5) as $value) {
+            if ($fieldIndex <= $value && $value < $fieldIndex + count($fieldValues)) {
+                if ('' != $fieldValues[$value - $fieldIndex]) {
+                    $where['v' . $value] = $fieldValues[$value - $fieldIndex];
+                }
+            }
+        }
+
+        return $this->model->where($where)->get();
     }
 }

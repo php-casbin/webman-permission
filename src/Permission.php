@@ -15,8 +15,6 @@ use Casbin\Exceptions\CasbinException;
 use Casbin\Model\Model;
 use support\Container;
 use Casbin\WebmanPermission\Watcher\RedisWatcher;
-use Workerman\Worker;
-use Webman\Bootstrap;
 
 /**
  * @see \Casbin\Enforcer
@@ -45,50 +43,52 @@ use Webman\Bootstrap;
  * @method static getImplicitPermissionsForUser(string $username, string ...$domain) 获取用户具有的隐式权限
  * @method static addFunction(string $name, \Closure $func) 添加一个自定义函数
  */
-class Permission implements Bootstrap
+class Permission
 {
-    /**
-     * @var Enforcer|null $_manager
-     */
-    protected static ?Enforcer $_manager = null;
+    /** @var Enforcer[] $_manager */
+    protected static array $_manager = [];
 
     /**
-     * @param Worker $worker
-     * @return void
+     * @param  string|null  $driver
+     * @return Enforcer
      * @throws CasbinException
-     * @author Tinywan(ShaoBo Wan)
+     * @author Lyt8384
      */
-    public static function start($worker)
+    public static function client(?string $driver = null): Enforcer
     {
-        if ($worker) {
-            $driver = config('plugin.casbin.webman-permission.permission.default');
-            $config = config('plugin.casbin.webman-permission.permission.'.$driver);
-            $model = new Model();
-            if ('file' == $config['model']['config_type']) {
-                $model->loadModel($config['model']['config_file_path']);
-            } elseif ('text' == $config['model']['config_type']) {
-                $model->loadModel($config['model']['config_text']);
-            }
-            if (is_null(static::$_manager)) {
-                static::$_manager = new Enforcer($model, Container::get($config['adapter']),false);
-            }
-
-            $watcher = new RedisWatcher(config('redis.default'));
-            static::$_manager->setWatcher($watcher);
-            $watcher->setUpdateCallback(function () {
-                static::$_manager->loadPolicy();
-            });
+        $driver = $driver ?? config('plugin.casbin.webman-permission.permission.default');
+        $config = config('plugin.casbin.webman-permission.permission.'.$driver);
+        
+        if(isset(static::$_manager[$driver])){
+            return static::$_manager[$driver];
         }
+
+        $model = new Model();
+        if ('file' == $config['model']['config_type']) {
+            $model->loadModel($config['model']['config_file_path']);
+        } elseif ('text' == $config['model']['config_type']) {
+            $model->loadModel($config['model']['config_text']);
+        }
+        static::$_manager[$driver] = new Enforcer($model, Container::make($config['adapter'],[$driver]),false);
+
+        $watcher = new RedisWatcher(config('redis.default'), $driver);
+        static::$_manager[$driver]->setWatcher($watcher);
+        $watcher->setUpdateCallback(function () use ($driver) {
+            static::$_manager[$driver]->loadPolicy();
+        });
+        return static::$_manager[$driver];
     }
 
     /**
      * @param $name
      * @param $arguments
+     *
      * @return mixed
+     * @throws CasbinException
      * @author Tinywan(ShaoBo Wan)
      */
     public static function __callStatic($name, $arguments)
     {
-        return static::$_manager->{$name}(...$arguments);
+        return self::client()->{$name}(...$arguments);
     }
 }

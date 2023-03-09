@@ -4,3 +4,4 @@ vendor
 .vscode
 .phpunit*
 composer.lock
+.DS_Store

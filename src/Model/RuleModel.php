@@ -34,13 +34,17 @@ class RuleModel extends Model implements Arrayable
         'v5'    => 'string'
     ];
 
+    /** @var string $driver */
+    protected string $driver;
+
     /**
      * 架构函数
      * @access public
      * @param array $data 数据
      */
-    public function __construct(array $data = [])
+    public function __construct(array $data = [], ?string $driver = null)
     {
+        $this->driver = $driver;
         $this->connection = $this->config('database.connection') ?: '';
         $this->table = $this->config('database.rules_table');
         $this->name = $this->config('database.rules_name');
@@ -57,7 +61,7 @@ class RuleModel extends Model implements Arrayable
      */
     protected function config(string $key = null, $default = null)
     {
-        $driver = config('plugin.casbin.webman-permission.permission.default');
+        $driver = $this->driver ?? config('plugin.casbin.webman-permission.permission.default');
         return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
     }
 }

@@ -109,6 +109,23 @@ if (Permission::enforce("eve", "articles", "edit")) {
 }
 ```
 
+多套配置
+```php
+$permission = Permission::client("other_conf")
+// adds permissions to a user
+$permission->addPermissionForUser('eve', 'articles', 'read');
+// adds a role for a user.
+$permission->addRoleForUser('eve', 'writer');
+// adds permissions to a rule
+$permission->addPolicy('writer', 'articles','edit');
+
+if ($permission->enforce("eve", "articles", "edit")) {
+    echo '恭喜你！通过权限认证';
+} else {
+    echo '对不起，您没有该资源访问权限';
+}
+```
+
 更多 `API` 参考 [Casbin API](https://casbin.org/docs/en/management-api) 。
 
 ## 感谢
