@@ -22,7 +22,7 @@ class RedisWatcher implements Watcher
 
     private Client $subRedis;
 
-    private $channel;
+    private string $channel;
     /**
      * The config of Watcher.
      *

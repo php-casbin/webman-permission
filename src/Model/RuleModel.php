@@ -39,8 +39,8 @@ class RuleModel extends Model implements Arrayable
 
     /**
      * 架构函数
-     * @access public
-     * @param array $data 数据
+     * @param array $data
+     * @param string|null $driver
      */
     public function __construct(array $data = [], ?string $driver = null)
     {

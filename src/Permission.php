@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc 描述
  * @author Tinywan(ShaoBo Wan)
@@ -57,9 +58,9 @@ class Permission
     public static function client(?string $driver = null): Enforcer
     {
         $driver = $driver ?? config('plugin.casbin.webman-permission.permission.default');
-        $config = config('plugin.casbin.webman-permission.permission.'.$driver);
-        
-        if(isset(static::$_manager[$driver])){
+        $config = config('plugin.casbin.webman-permission.permission.' . $driver);
+
+        if (isset(static::$_manager[$driver])) {
             return static::$_manager[$driver];
         }
 
@@ -69,7 +70,7 @@ class Permission
         } elseif ('text' == $config['model']['config_type']) {
             $model->loadModel($config['model']['config_text']);
         }
-        static::$_manager[$driver] = new Enforcer($model, Container::make($config['adapter'],[$driver]),false);
+        static::$_manager[$driver] = new Enforcer($model, Container::make($config['adapter'], [$driver]), false);
 
         $watcher = new RedisWatcher(config('redis.default'), $driver);
         static::$_manager[$driver]->setWatcher($watcher);
@@ -82,7 +83,6 @@ class Permission
     /**
      * @param $name
      * @param $arguments
-     *
      * @return mixed
      * @throws CasbinException
      * @author Tinywan(ShaoBo Wan)
