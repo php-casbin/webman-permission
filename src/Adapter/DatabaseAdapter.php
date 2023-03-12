@@ -33,14 +33,14 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
     /**
      * @var bool
      */
-    private $filtered = false;
+    private bool $filtered = false;
 
     /**
      * RuleModel model.
      *
      * @var RuleModel
      */
-    protected $model;
+    protected RuleModel $model;
 
     /**
      * the DatabaseAdapter constructor.
