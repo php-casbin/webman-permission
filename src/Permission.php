@@ -55,10 +55,10 @@ class Permission
      * @throws CasbinException
      * @author Lyt8384
      */
-    public static function client(?string $driver = null): Enforcer
+    public static function driver(?string $driver = null): Enforcer
     {
-        $driver = $driver ?? config('plugin.casbin.webman-permission.permission.default');
-        $config = config('plugin.casbin.webman-permission.permission.' . $driver);
+        $driver = $driver ?? self::getDefaultDriver();
+        $config = self::getConfig($driver);
 
         if (isset(static::$_manager[$driver])) {
             return static::$_manager[$driver];
@@ -81,14 +81,50 @@ class Permission
     }
 
     /**
-     * @param $name
+     * @desc: 获取所有驱动
+     * @return Enforcer[]
+     * @author Tinywan(ShaoBo Wan)
+     */
+    public static function getAllDriver(): array
+    {
+        return static::$_manager;
+    }
+
+    /**
+     * @desc: 默认驱动
+     * @return mixed
+     * @author Tinywan(ShaoBo Wan)
+     */
+    public static function getDefaultDriver()
+    {
+        return self::getConfig('default');
+    }
+
+    /**
+     * @desc: 获取驱动配置
+     * @param string|null $name 名称
+     * @param null $default 默认值
+     * @return mixed
+     * @author Tinywan(ShaoBo Wan)
+     */
+    public static function getConfig(string $name = null, $default = null)
+    {
+        if (!is_null($name)) {
+            return config('plugin.casbin.webman-permission.permission.' . $name, $default);
+        }
+        return config('plugin.casbin.webman-permission.permission.default');
+    }
+
+    /**
+     * @desc: 静态调用
+     * @param string $method
      * @param $arguments
      * @return mixed
      * @throws CasbinException
      * @author Tinywan(ShaoBo Wan)
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic(string $method, $arguments)
     {
-        return self::client()->{$name}(...$arguments);
+        return self::driver()->{$method}(...$arguments);
     }
 }

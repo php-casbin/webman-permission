@@ -96,16 +96,17 @@ Permission::addPolicy('writer', 'articles','edit');
 你可以检查一个用户是否拥有某个权限:
 
 ```php
-if (Permission::enforce("eve", "articles", "edit")) {
+if (\Casbin\WebmanPermission\Permission::enforce("eve", "articles", "edit")) {
     echo '恭喜你！通过权限认证';
 } else {
     echo '对不起，您没有该资源访问权限';
 }
 ```
 
-### 多套配置
+### 多套驱动配置
+
 ```php
-$permission = Permission::client("restful_conf")
+$permission = \Casbin\WebmanPermission\Permission::driver("restful_conf");
 // adds permissions to a user
 $permission->addPermissionForUser('eve', 'articles', 'read');
 // adds a role for a user.

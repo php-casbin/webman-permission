@@ -34,13 +34,13 @@ class LaravelRuleModel extends Model
     protected $fillable = ['ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5'];
 
 
-    /** @var string $driver */
-    protected string $driver;
+    /** @var string|null $driver */
+    protected ?string $driver;
 
     /**
      * 架构函数
-     * @access public
-     * @param array $data 数据
+     * @param array $data
+     * @param string|null $driver
      */
     public function __construct(array $data = [], ?string $driver = null)
     {

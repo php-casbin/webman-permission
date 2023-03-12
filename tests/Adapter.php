@@ -8,36 +8,36 @@ trait Adapter
 {
     public function testAddOtherPolicy()
     {
-        // var_dump(config('plugin.casbin.webman-permission.permission'));
-        $this->assertTrue(Permission::client('other')->addPolicy('writer', 'articles', 'edit'));
-        $this->assertTrue(Permission::client('other')->addPolicies([
+        var_dump(config('plugin.casbin.webman-permission.permission'));
+        $this->assertTrue(Permission::driver('other')->addPolicy('writer', 'articles', 'edit'));
+        $this->assertTrue(Permission::driver('other')->addPolicies([
             ['writer', 'articles', 'list'],
             ['writer', 'articles', 'delete'],
         ]));
 
-        $this->assertFalse(Permission::client('other')->addPolicies([
+        $this->assertFalse(Permission::driver('other')->addPolicies([
             ['writer', 'articles', 'list'],
             ['writer', 'articles', 'delete'],
         ]));
 
-        $this->assertTrue(Permission::client('other')->enforce('writer', 'articles', 'edit'));
-        $this->assertTrue(Permission::client('other')->enforce('writer', 'articles', 'delete'));
-        $this->assertFalse(Permission::client('other')->enforce('writer', 'articles', 'other'));
+        $this->assertTrue(Permission::driver('other')->enforce('writer', 'articles', 'edit'));
+        $this->assertTrue(Permission::driver('other')->enforce('writer', 'articles', 'delete'));
+        $this->assertFalse(Permission::driver('other')->enforce('writer', 'articles', 'other'));
 
-        $this->assertTrue(Permission::client('other')->hasPolicy('writer', 'articles', 'edit'));
-        $this->assertFalse(Permission::client('other')->hasPolicy('writer', 'articles', 'other'));
+        $this->assertTrue(Permission::driver('other')->hasPolicy('writer', 'articles', 'edit'));
+        $this->assertFalse(Permission::driver('other')->hasPolicy('writer', 'articles', 'other'));
 
-        $this->assertTrue(Permission::client('other')->removePolicy('writer', 'articles', 'edit'));
-        $this->assertFalse(Permission::client('other')->hasPolicy('writer', 'articles', 'edit'));
-        $this->assertFalse(Permission::client('other')->enforce('writer', 'articles', 'edit'));
+        $this->assertTrue(Permission::driver('other')->removePolicy('writer', 'articles', 'edit'));
+        $this->assertFalse(Permission::driver('other')->hasPolicy('writer', 'articles', 'edit'));
+        $this->assertFalse(Permission::driver('other')->enforce('writer', 'articles', 'edit'));
     }
 
     public function testAddOtherRoleForUser()
     {
-        $this->assertFalse(Permission::client('other')->hasRoleForUser('eve', 'data2'));
-        Permission::client('other')->addRoleForUser('eve', 'data2');
-        $this->assertTrue(in_array('data2', Permission::client('other')->getAllRoles()));
-        $this->assertTrue(Permission::client('other')->hasRoleForUser('eve', 'data2'));
+        $this->assertFalse(Permission::driver('other')->hasRoleForUser('eve', 'data2'));
+        Permission::driver('other')->addRoleForUser('eve', 'data2');
+        $this->assertTrue(in_array('data2', Permission::driver('other')->getAllRoles()));
+        $this->assertTrue(Permission::driver('other')->hasRoleForUser('eve', 'data2'));
     }
 
     public function testAddPermissionForUser()
@@ -82,8 +82,8 @@ trait Adapter
 
     public function testOtherAddPermissionForUser()
     {
-        $this->assertFalse(Permission::client('other')->enforce('eve', 'data1', 'read'));
-        Permission::client('other')->addPermissionForUser('eve', 'data1', 'read');
-        $this->assertTrue(Permission::client('other')->enforce('eve', 'data1', 'read'));
+        $this->assertFalse(Permission::driver('other')->enforce('eve', 'data1', 'read'));
+        Permission::driver('other')->addPermissionForUser('eve', 'data1', 'read');
+        $this->assertTrue(Permission::driver('other')->enforce('eve', 'data1', 'read'));
     }
 }
