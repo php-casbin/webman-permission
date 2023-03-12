@@ -9,23 +9,17 @@
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
-## 依赖
-
-- [ThinkORM](https://www.workerman.net/doc/webman/db/others.html)（默认）
-- [PHP-DI](https://github.com/PHP-DI/PHP-DI)
-- [illuminate/database](https://www.workerman.net/doc/webman/db/tutorial.html)（可选）
-
-## 安装
+## Installation
 
 ```sh
 composer require -W casbin/webman-permission
 ```
 
-## 使用
+## Configuration
 
-### 1. 依赖注入配置
+### 1. DI Configuration
 
-修改配置`config/container.php`，其最终内容如下：
+`config/container.php`：
 
 ```php
 $builder = new \DI\ContainerBuilder();
@@ -34,7 +28,7 @@ $builder->useAutowiring(true);
 return $builder->build();
 ```
 
-### 2. 数据库配置
+### 2. database
 
 > 默认策略存储是使用的ThinkORM。
 > 如使用 laravel的数据库 [illuminate/database](https://github.com/illuminate/database)，请按照官方文档按照相应的依赖包：https://www.workerman.net/doc/webman/db/tutorial.html
