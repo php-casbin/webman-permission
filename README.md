@@ -39,16 +39,12 @@ return $builder->build();
 > 默认策略存储是使用的ThinkORM。
 > 如使用 laravel的数据库 [illuminate/database](https://github.com/illuminate/database)，请按照官方文档按照相应的依赖包：https://www.workerman.net/doc/webman/db/tutorial.html
 
-#### 🚀 (1) 模型配置
+**模型配置**
 
-使用ThinkORM（默认）
-> 修改数据库 `thinkorm.php` 配置
+默认使用ThinkORM。修改数据库 `thinkorm.php` 配置
 
-使用laravel数据库（可选）
-> - 修改数据库 `database.php` 配置
-> - 修改数据库 `permission.php` 的`adapter`适配器为laravel适配器
+**创建 `casbin_rule` 数据表**
 
-#### 🔰 (2) 创建 `casbin_rule` 数据表
 ```sql
 CREATE TABLE `casbin_rule` (
 	`id` BIGINT ( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -69,8 +65,6 @@ CREATE TABLE `casbin_rule` (
     KEY `idx_v5` ( `v5` ) USING BTREE 
 ) ENGINE = INNODB CHARSET = utf8mb4 COMMENT = '策略规则表';
 ```
-
-#### 📚 (3) 配置 `config/redis` 配置
 
 ## 重启webman
 
@@ -109,9 +103,9 @@ if (Permission::enforce("eve", "articles", "edit")) {
 }
 ```
 
-多套配置
+### 多套配置
 ```php
-$permission = Permission::client("other_conf")
+$permission = Permission::client("restful_conf")
 // adds permissions to a user
 $permission->addPermissionForUser('eve', 'articles', 'read');
 // adds a role for a user.
