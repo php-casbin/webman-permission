@@ -35,7 +35,7 @@ class RuleModel extends Model implements Arrayable
     ];
 
     /** @var string|null $driver */
-    protected ?string  $driver;
+    protected ?string $driver;
 
     /**
      * 架构函数
@@ -61,7 +61,7 @@ class RuleModel extends Model implements Arrayable
      */
     protected function config(string $key = null, $default = null)
     {
-        $driver = $this->driver ?: config('plugin.casbin.webman-permission.permission.default');
+        $driver = $this->driver ?? config('plugin.casbin.webman-permission.permission.default');
         return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
     }
 }
