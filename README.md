@@ -1,4 +1,6 @@
-# webman casbin plugin
+<h1 align="center">
+    Webman Authorization Plugin
+</h1>
 
 [![Latest Stable Version](http://poser.pugx.org/casbin/webman-permission/v)](https://packagist.org/packages/casbin/webman-permission) 
 [![Total Downloads](http://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission)
