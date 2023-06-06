@@ -32,8 +32,8 @@ return $builder->build();
 
 ### 2. database
 
-> 默认策略存储是使用的ThinkORM。
-> 如使用 laravel的数据库 [illuminate/database](https://github.com/illuminate/database)，请按照官方文档按照相应的依赖包：https://www.workerman.net/doc/webman/db/tutorial.html
+> 默认策略存储是使用的`ThinkORM`。
+> 如使用 `laravel`的数据库 [illuminate/database](https://github.com/illuminate/database)，请按照官方文档按照相应的依赖包：https://www.workerman.net/doc/webman/db/tutorial.html
 
 **模型配置**
 
@@ -92,7 +92,7 @@ Permission::addPolicy('writer', 'articles','edit');
 你可以检查一个用户是否拥有某个权限:
 
 ```php
-if (\Casbin\WebmanPermission\Permission::enforce("eve", "articles", "edit")) {
+if (\Casbin\WebmanPermission\Permission::enforce('eve', 'articles', 'edit')) {
     echo '恭喜你！通过权限认证';
 } else {
     echo '对不起，您没有该资源访问权限';
@@ -102,7 +102,7 @@ if (\Casbin\WebmanPermission\Permission::enforce("eve", "articles", "edit")) {
 ### 多套驱动配置
 
 ```php
-$permission = \Casbin\WebmanPermission\Permission::driver("restful_conf");
+$permission = \Casbin\WebmanPermission\Permission::driver('restful_conf');
 // adds permissions to a user
 $permission->addPermissionForUser('eve', 'articles', 'read');
 // adds a role for a user.
@@ -110,7 +110,7 @@ $permission->addRoleForUser('eve', 'writer');
 // adds permissions to a rule
 $permission->addPolicy('writer', 'articles','edit');
 
-if ($permission->enforce("eve", "articles", "edit")) {
+if ($permission->enforce('eve', 'articles', 'edit')) {
     echo '恭喜你！通过权限认证';
 } else {
     echo '对不起，您没有该资源访问权限';
