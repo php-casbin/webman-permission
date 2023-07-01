@@ -39,7 +39,7 @@ return $builder->build();
 
 默认使用ThinkORM。修改数据库 `thinkorm.php` 配置
 
-**创建 `casbin_rule` 数据表**
+`casbin_rule` 表
 
 ```sql
 CREATE TABLE `casbin_rule` (
@@ -118,6 +118,13 @@ if ($permission->enforce('eve', 'articles', 'edit')) {
 ```
 
 更多 `API` 参考 [Casbin API](https://casbin.org/docs/en/management-api) 。
+
+## 教程
+* [Casbin权限实战：入门分享(中文)](https://www.bilibili.com/video/BV1A541187M4/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
+* [Casbin权限实战：基于角色的RBAC授权](https://www.bilibili.com/video/BV1A541187M4/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
+* [Casbin权限实战：RESTful及中间件使用](https://www.bilibili.com/video/BV1uk4y117up/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
+* [Casbin权限实战：如何使用自定义匹配函数](https://www.bilibili.com/video/BV1dq4y1Z78g/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
+* [Webman实战教程：如何使用casbin权限控制](https://www.bilibili.com/video/BV1X34y1Q7ZH/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 
 ## 感谢
 
