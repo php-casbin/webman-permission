@@ -27,6 +27,8 @@ use Casbin\WebmanPermission\Watcher\RedisWatcher;
  * @method static bool removePolicy(mixed ...$params) 当前策略移除授权规则
  * @method static array getAllRoles() 获取所有角色
  * @method static array getPolicy() 获取所有的角色的授权规则
+ * @method static bool updatePolicies(array $oldPolices, array $newPolicies) 更新策略
+ * @method static bool removePolicies(array $rules) 删除策略
  * @method static array getRolesForUser(string $name, string ...$domain) 获取用户具有的角色
  * @method static array getUsersForRole(string $name, string ...$domain) 获取具有角色的用户
  * @method static bool hasRoleForUser(string $name, string $role, string ...$domain) 确定用户是否具有角色
