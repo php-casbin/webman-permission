@@ -11,17 +11,17 @@
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
-## Installation
+# 安装
 
 ```sh
 composer require -W casbin/webman-permission
 ```
 
-## Configuration
+# 使用
 
-### 1. DI Configuration
+> **1. 依赖注入配置**
 
-`config/container.php`：
+修改配置`config/container.php`，其最终内容如下：
 
 ```php
 $builder = new \DI\ContainerBuilder();
@@ -30,17 +30,19 @@ $builder->useAutowiring(true);
 return $builder->build();
 ```
 
-### 2. database
+> **2. 数据库配置**
 
-> 默认策略存储是使用的`ThinkORM`。
-> 如使用 `laravel`的数据库 [illuminate/database](https://github.com/illuminate/database)，请按照官方文档按照相应的依赖包：https://www.workerman.net/doc/webman/db/tutorial.html
+默认策略存储是使用的ThinkORM。
 
-**模型配置**
+**1、模型配置**
 
 默认使用ThinkORM。修改数据库 `thinkorm.php` 配置
 
-`casbin_rule` 表
+> 如使用laravel数据库，配置参考如下
+  - 修改数据库 `database.php` 配置
+  - 修改数据库 `permission.php` 的`adapter`适配器为laravel适配器
 
+**2、创建 `casbin_rule` 数据表**
 ```sql
 CREATE TABLE `casbin_rule` (
 	`id` BIGINT ( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -61,8 +63,9 @@ CREATE TABLE `casbin_rule` (
     KEY `idx_v5` ( `v5` ) USING BTREE 
 ) ENGINE = INNODB CHARSET = utf8mb4 COMMENT = '策略规则表';
 ```
+**3、配置 `config/redis` 配置**
 
-## 重启webman
+**4、重启webman**
 
 ```
 php start.php restart
@@ -72,9 +75,7 @@ php start.php restart
 php start.php restart -d
 ```
 
-## 用法
-
-### 快速开始
+# 使用
 
 安装成功后，可以这样使用:
 
@@ -99,7 +100,7 @@ if (\Casbin\WebmanPermission\Permission::enforce('eve', 'articles', 'edit')) {
 }
 ```
 
-### 多套驱动配置
+# 多套驱动配置
 
 ```php
 $permission = \Casbin\WebmanPermission\Permission::driver('restful_conf');
@@ -119,14 +120,14 @@ if ($permission->enforce('eve', 'articles', 'edit')) {
 
 更多 `API` 参考 [Casbin API](https://casbin.org/docs/en/management-api) 。
 
-## 教程
+# 教程
 * [Casbin权限实战：入门分享(中文)](https://www.bilibili.com/video/BV1A541187M4/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 * [Casbin权限实战：基于角色的RBAC授权](https://www.bilibili.com/video/BV1A541187M4/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 * [Casbin权限实战：RESTful及中间件使用](https://www.bilibili.com/video/BV1uk4y117up/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 * [Casbin权限实战：如何使用自定义匹配函数](https://www.bilibili.com/video/BV1dq4y1Z78g/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 * [Webman实战教程：如何使用casbin权限控制](https://www.bilibili.com/video/BV1X34y1Q7ZH/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 
-## 感谢
+# 感谢
 
 [Casbin](https://github.com/php-casbin/php-casbin)，你可以查看全部文档在其 [官网](https://casbin.org/) 上。
 
