@@ -19,7 +19,7 @@ composer require -W casbin/webman-permission
 
 # 使用
 
-> **1. 依赖注入配置**
+## 依赖注入配置
 
 修改配置`config/container.php`，其最终内容如下：
 
@@ -30,11 +30,11 @@ $builder->useAutowiring(true);
 return $builder->build();
 ```
 
-> **2. 数据库配置**
+## 数据库配置
 
 默认策略存储是使用的ThinkORM。
 
-**1、模型配置**
+### 1、模型配置
 
 默认使用ThinkORM。修改数据库 `thinkorm.php` 配置
 
@@ -42,7 +42,7 @@ return $builder->build();
   - 修改数据库 `database.php` 配置
   - 修改数据库 `permission.php` 的`adapter`适配器为laravel适配器
 
-**2、创建 `casbin_rule` 数据表**
+### 2、创建 `casbin_rule` 数据表
 ```sql
 CREATE TABLE `casbin_rule` (
 	`id` BIGINT ( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -63,9 +63,9 @@ CREATE TABLE `casbin_rule` (
     KEY `idx_v5` ( `v5` ) USING BTREE 
 ) ENGINE = INNODB CHARSET = utf8mb4 COMMENT = '策略规则表';
 ```
-**3、配置 `config/redis` 配置**
+### 3、配置 `config/redis` 配置
 
-**4、重启webman**
+### 4、重启webman
 
 ```
 php start.php restart
