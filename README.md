@@ -2,6 +2,7 @@
     Webman Authorization Plugin
 </h1>
 
+[![Default](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml/badge.svg)](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml)
 [![Latest Stable Version](https://poser.pugx.org/casbin/webman-permission/v/stable)](https://packagist.org/packages/casbin/webman-permission)
 [![Total Downloads](https://poser.pugx.org/casbin/webman-permission/downloads)](https://packagist.org/packages/casbin/webman-permission)
 [![License](https://poser.pugx.org/casbin/webman-permission/license)](https://packagist.org/packages/casbin/webman-permission)
