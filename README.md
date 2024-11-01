@@ -1,6 +1,6 @@
-<h1 align="center">
-    Webman Authorization Plugin
-</h1>
+<p align="center"><img width="260px" src="https://chaz6chez.cn/images/workbunny-logo.png" alt="workbunny"></p>
+
+**<p align="center">🐇 Webman Authorization Plugin Base Casbin. 🐇</p>**
 
 [![Default](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml/badge.svg)](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml)
 [![Latest Stable Version](https://poser.pugx.org/casbin/webman-permission/v/stable)](https://packagist.org/packages/casbin/webman-permission)
