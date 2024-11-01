@@ -1,6 +1,6 @@
 <p align="center"><img width="260px" src="https://chaz6chez.cn/images/workbunny-logo.png" alt="workbunny"></p>
 
-**<p align="center">🐇 Webman Authorization Plugin Base Casbin. 🐇</p>**
+**<p align="center">🐇 An Authorization Dor Webman plugin Plugin. 🐇</p>**
 
 # <p align="center"> 🐇 Webman Authorization Plugin Base Casbin. 🐇</p>
 
