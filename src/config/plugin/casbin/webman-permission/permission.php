@@ -6,7 +6,13 @@
  */
 return [
     'default' => 'basic',
-    // 默认配置
+    /** 日志配置 */
+    'log' => [
+        'enabled' => true, // changes will log messages to the Logger.
+        'logger' => 'Casbin', // Casbin Logger, Supported: \Psr\Log\LoggerInterface|string
+        'path' => runtime_path() . '/logs/casbin.log' // log path
+    ],
+    /** 默认配置 */
     'basic' => [
         // 策略模型Model设置
         'model' => [
@@ -24,7 +30,7 @@ return [
             'rules_name' => null
         ],
     ],
-    // 其他扩展配置，只需要按照基础配置一样，复制一份，指定相关策略模型和适配器即可
+    /** 其他扩展配置，只需要按照基础配置一样，复制一份，指定相关策略模型和适配器即可 */
     'restful' => [
         'model' => [
             'config_type' => 'file',

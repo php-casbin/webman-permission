@@ -13,7 +13,11 @@ namespace Casbin\WebmanPermission;
 
 use Casbin\Enforcer;
 use Casbin\Exceptions\CasbinException;
+use Casbin\Log\Logger\DefaultLogger;
 use Casbin\Model\Model;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use support\Container;
 use Casbin\WebmanPermission\Watcher\RedisWatcher;
 
@@ -67,10 +71,11 @@ class Permission
     protected static array $_manager = [];
 
     /**
-     * @param  string|null  $driver
+     * @desc driver
+     * @param string|null $driver
      * @return Enforcer
      * @throws CasbinException
-     * @author Lyt8384
+     * @author Tinywan(ShaoBo Wan)
      */
     public static function driver(?string $driver = null): Enforcer
     {
@@ -87,7 +92,15 @@ class Permission
         } elseif ('text' == $config['model']['config_type']) {
             $model->loadModel($config['model']['config_text']);
         }
-        static::$_manager[$driver] = new Enforcer($model, Container::make($config['adapter'], [$driver]), false);
+        $logConfig = self::getConfig('log');
+        $logger = null;
+        if (true === $logConfig['enabled']) {
+            /** @var LoggerInterface $casbinLogger 创建一个 Monolog 日志记录器 */
+            $casbinLogger = new Logger($logConfig['logger']);
+            $casbinLogger->pushHandler(new StreamHandler($logConfig['path'], Logger::DEBUG));
+            $logger = new DefaultLogger($casbinLogger);
+        }
+        static::$_manager[$driver] = new Enforcer($model, Container::make($config['adapter'], [$driver]), $logger, $logConfig['enabled']);
 
         $watcher = new RedisWatcher(config('redis.default'), $driver);
         static::$_manager[$driver]->setWatcher($watcher);
@@ -112,7 +125,7 @@ class Permission
      * @return mixed
      * @author Tinywan(ShaoBo Wan)
      */
-    public static function getDefaultDriver()
+    public static function getDefaultDriver(): mixed
     {
         return self::getConfig('default');
     }
@@ -124,7 +137,7 @@ class Permission
      * @return mixed
      * @author Tinywan(ShaoBo Wan)
      */
-    public static function getConfig(string $name = null, $default = null)
+    public static function getConfig(string $name = null, $default = null): mixed
     {
         if (!is_null($name)) {
             return config('plugin.casbin.webman-permission.permission.' . $name, $default);
