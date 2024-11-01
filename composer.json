@@ -40,10 +40,8 @@
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "~8.0|~9.0",
     "php-coveralls/php-coveralls": "^2.1",
-    "workerman/webman": "^1.0",
-    "vlucas/phpdotenv": "^5.5",
+    "workerman/webman": "^1.5",
     "psr/container": "^1.1.1",
     "illuminate/database": "^8.83",
     "illuminate/pagination": "^8.83",
