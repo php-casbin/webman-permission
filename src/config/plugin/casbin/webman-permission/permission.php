@@ -8,7 +8,7 @@ return [
     'default' => 'basic',
     /** 日志配置 */
     'log' => [
-        'enabled' => true, // changes will log messages to the Logger.
+        'enabled' => false, // changes will log messages to the Logger.
         'logger' => 'Casbin', // Casbin Logger, Supported: \Psr\Log\LoggerInterface|string
         'path' => runtime_path() . '/logs/casbin.log' // log path
     ],
