@@ -368,7 +368,8 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      *
      * @return Builder[]|Collection
      */
-    protected function getCollection(string $ptype, int $fieldIndex, array $fieldValues) {
+    protected function getCollection(string $ptype, int $fieldIndex, array $fieldValues): Collection|array
+    {
         $where = [
             'ptype' => $ptype,
         ];

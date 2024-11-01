@@ -18,6 +18,9 @@ use Casbin\Persist\BatchAdapter;
 use Casbin\Persist\FilteredAdapter;
 use Casbin\Persist\Adapters\Filter;
 use Casbin\Exceptions\InvalidFilterTypeException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Db;
 use Casbin\WebmanPermission\Model\RuleModel;
 
@@ -80,7 +83,7 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      *
      * @return void
      */
-    public function savePolicyLine($ptype, array $rule)
+    public function savePolicyLine(string $ptype, array $rule): void
     {
         $col['ptype'] = $ptype;
         foreach ($rule as $key => $value) {
@@ -93,6 +96,9 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      * loads all policy rules from the storage.
      *
      * @param Model $model
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function loadPolicy(Model $model): void
     {
@@ -168,7 +174,10 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      *
      * @param string $sec
      * @param string $ptype
-     * @param array  $rule
+     * @param array $rule
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function removePolicy(string $sec, string $ptype, array $rule): void
     {
@@ -205,12 +214,14 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
     }
 
     /**
-     * @param string      $sec
-     * @param string      $ptype
-     * @param int         $fieldIndex
+     * @param string $sec
+     * @param string $ptype
+     * @param int $fieldIndex
      * @param string|null ...$fieldValues
      * @return array
-     * @throws Throwable
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
      */
     public function _removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, ?string ...$fieldValues): array
     {
@@ -244,8 +255,11 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      *
      * @param string $sec
      * @param string $ptype
-     * @param int    $fieldIndex
+     * @param int $fieldIndex
      * @param string ...$fieldValues
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, string ...$fieldValues): void
     {
@@ -260,6 +274,9 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      * @param string $ptype
      * @param string[] $oldRule
      * @param string[] $newPolicy
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function updatePolicy(string $sec, string $ptype, array $oldRule, array $newPolicy): void
     {
@@ -342,6 +359,10 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
      *
      * @param Model $model
      * @param mixed $filter
+     * @throws InvalidFilterTypeException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function loadFilteredPolicy(Model $model, $filter): void
     {
@@ -351,7 +372,6 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
             $instance = $instance->whereRaw($filter);
         } elseif ($filter instanceof Filter) {
             foreach ($filter->p as $k => $v) {
-                $where[$v] = $filter->g[$k];
                 $instance = $instance->where($v, $filter->g[$k]);
             }
         } elseif ($filter instanceof \Closure) {
