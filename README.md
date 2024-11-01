@@ -9,17 +9,18 @@
 
 An authorization library that supports access control models like ACL, RBAC, ABAC for webman plugin
 
-# 安装
+# Install
 
+Composer Install
 ```sh
 composer require -W casbin/webman-permission
 ```
 
-# 使用
+# Use
 
-## 依赖注入配置
+## Dependency Injection configuration
 
-修改配置`config/container.php`，其最终内容如下：
+Modify the `config/container.php` configuration to perform the following final contents:
 
 ```php
 $builder = new \DI\ContainerBuilder();
@@ -28,7 +29,7 @@ $builder->useAutowiring(true);
 return $builder->build();
 ```
 
-## 数据库配置
+## Database configuration
 
 默认策略存储是使用的ThinkORM。
 
