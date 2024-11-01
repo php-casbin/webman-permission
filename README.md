@@ -2,7 +2,7 @@
 
 **<p align="center">🐇 Webman Authorization Plugin Base Casbin. 🐇</p>**
 
-# 🐇 Webman Authorization Plugin Base Casbin. 🐇
+# <p align="center"> 🐇 Webman Authorization Plugin Base Casbin. 🐇</p>
 
 [![Default](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml/badge.svg)](https://github.com/php-casbin/webman-permission/actions/workflows/default.yml)
 [![Latest Stable Version](https://poser.pugx.org/casbin/webman-permission/v/stable)](https://packagist.org/packages/casbin/webman-permission)
