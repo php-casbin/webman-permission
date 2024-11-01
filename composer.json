@@ -48,7 +48,6 @@
     "illuminate/database": "^8.83",
     "illuminate/pagination": "^8.83",
     "illuminate/events": "^8.83",
-    "symfony/var-dumper": "^6.2",
     "webman/think-orm": "^1.0"
   }
 }
