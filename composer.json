@@ -40,12 +40,13 @@
     }
   },
   "require-dev": {
-    "php-coveralls/php-coveralls": "^2.1",
+    "php-coveralls/php-coveralls": "^2.7",
     "workerman/webman": "^1.5",
     "psr/container": "^1.1.1",
     "illuminate/database": "^8.83",
     "illuminate/pagination": "^8.83",
     "illuminate/events": "^8.83",
-    "webman/think-orm": "^1.0"
+    "webman/think-orm": "^1.0",
+    "phpunit/phpunit": "^11.4"
   }
 }
