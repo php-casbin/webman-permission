@@ -47,6 +47,6 @@
     "illuminate/pagination": "^8.83",
     "illuminate/events": "^8.83",
     "webman/think-orm": "^1.0",
-    "phpunit/phpunit": "^11.4"
+    "phpunit/phpunit": "^10.5"
   }
 }
