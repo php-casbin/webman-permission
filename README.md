@@ -158,3 +158,8 @@ if (is_null(static::$_manager)) {
 ```
 耦合太高，不建议这么搞，更多了解：https://www.workerman.net/doc/webman/di.html
 </details>
+
+## 问题
+
+* Laravel的驱动报错：`Call to a member function connection() on null|webman2.1/vendor/illuminate/database/Eloquent/Model.
+  php|1918`。解决方案，请检查本地数据库代理是否正常，如使用了Docker容器主机地址`dnmp-mysql`可能会导致该问题出现。 
