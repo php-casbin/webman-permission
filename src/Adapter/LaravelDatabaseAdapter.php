@@ -21,7 +21,7 @@ use Casbin\Exceptions\InvalidFilterTypeException;
 use Casbin\WebmanPermission\Model\LaravelRuleModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
+use support\Db;
 use Throwable;
 
 /**
@@ -208,7 +208,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function removePolicies(string $sec, string $ptype, array $rules): void
     {
-        DB::transaction(function () use ($sec, $ptype, $rules) {
+        Db::transaction(function () use ($sec, $ptype, $rules) {
             foreach ($rules as $rule) {
                 $this->removePolicy($sec, $ptype, $rule);
             }
@@ -269,7 +269,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
      */
     public function updatePolicies(string $sec, string $ptype, array $oldRules, array $newRules): void
     {
-        DB::transaction(function () use ($sec, $ptype, $oldRules, $newRules) {
+        Db::transaction(function () use ($sec, $ptype, $oldRules, $newRules) {
             foreach ($oldRules as $i => $oldRule) {
                 $this->updatePolicy($sec, $ptype, $oldRule, $newRules[$i]);
             }
@@ -289,7 +289,7 @@ class LaravelDatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter,
     public function updateFilteredPolicies(string $sec, string $ptype, array $newPolicies, int $fieldIndex, string ...$fieldValues): array
     {
         $oldRules = [];
-        DB::transaction(function () use ($sec, $ptype, $fieldIndex, $fieldValues, $newPolicies, &$oldRules) {
+        Db::transaction(function () use ($sec, $ptype, $fieldIndex, $fieldValues, $newPolicies, &$oldRules) {
             $oldRules = $this->_removeFilteredPolicy($sec, $ptype, $fieldIndex, ...$fieldValues);
             $this->addPolicies($sec, $ptype, $newPolicies);
         });
