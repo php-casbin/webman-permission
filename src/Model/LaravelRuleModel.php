@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Casbin\WebmanPermission\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use support\Model;
 
 /**
  * RuleModel Model

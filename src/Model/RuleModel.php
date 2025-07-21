@@ -11,12 +11,11 @@ declare(strict_types=1);
 namespace Casbin\WebmanPermission\Model;
 
 use think\Model;
-use think\contract\Arrayable;
 
 /**
  * RuleModel Model
  */
-class RuleModel extends Model implements Arrayable
+class RuleModel extends Model
 {
     /**
      * 设置字段信息
