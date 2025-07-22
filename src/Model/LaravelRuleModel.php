@@ -59,7 +59,7 @@ class LaravelRuleModel extends Model
      *
      * @return mixed
      */
-    protected function config(string $key = null, $default = null)
+    protected function config(?string $key = null, $default = null)
     {
         $driver = $this->driver ?? config('plugin.casbin.webman-permission.permission.default');
         return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
