@@ -137,7 +137,7 @@ class Permission
      * @return mixed
      * @author Tinywan(ShaoBo Wan)
      */
-    public static function getConfig(string $name = null, $default = null): mixed
+    public static function getConfig(?string $name = null, $default = null): mixed
     {
         if (!is_null($name)) {
             return config('plugin.casbin.webman-permission.permission.' . $name, $default);
