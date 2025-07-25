@@ -40,7 +40,7 @@ use Casbin\WebmanPermission\Watcher\RedisWatcher;
  * @method static bool addRolesForUser(string $user, array $roles, string ...$domain)
  * @method static bool addPermissionForUser(string $user, string ...$permission) 赋予权限给某个用户或角色
  * @method static bool addPermissionsForUser(string $user, array ...$permissions) 赋予用户或角色多个权限。 如果用户或角色已经有一个权限，则返回 false (不会受影响)
- * @method static bool deleteRoleForUser(string $user, string $role, string $domain) 删除用户的角色
+ * @method static bool deleteRoleForUser(string $user, string $role, string ...$domain) 删除用户的角色
  * @method static bool deleteUser(string $user) 删除用户
  * @method static bool deleteRolesForUser(string $user, string ...$domain) 删除某个用户的所有角色
  * @method static bool deleteRole(string $role) 删除单个角色
