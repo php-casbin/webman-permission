@@ -45,7 +45,7 @@ use Casbin\WebmanPermission\Watcher\RedisWatcher;
  * @method static bool deleteRolesForUser(string $user, string ...$domain) 删除某个用户的所有角色
  * @method static bool deleteRole(string $role) 删除单个角色
  * @method static bool deletePermission(string ...$permission) 删除权限
- * @method static bool deletePermissionForUser(string $name, string $permission) 删除用户或角色的权限。如果用户或角色没有权限则返回 false(不会受影响)。
+ * @method static bool deletePermissionForUser(string $name, string ...$permission) 删除用户或角色的权限。如果用户或角色没有权限则返回 false(不会受影响)。
  * @method static bool deletePermissionsForUser(string $name) 删除用户或角色的权限。如果用户或角色没有任何权限（也就是不受影响），则返回false。
  * @method static array getPermissionsForUser(string $name) 获取用户或角色的所有权限
  * @method static bool hasPermissionForUser(string $user, string ...$permission) 决定某个用户是否拥有某个权限
