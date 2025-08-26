@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true"
+         stopOnFailure="false"
+         cacheResult="false">
+    
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <directory>./vendor</directory>
+            <directory>./tests</directory>
+        </exclude>
+    </coverage>
+    
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+        
+        <testsuite name="Adapter Tests">
+            <file>./tests/AdapterTest.php</file>
+            <file>./tests/LaravelDatabase/LaravelDatabaseAdapterTest.php</file>
+            <file>./tests/ThinkphpDatabase/DatabaseAdapterTest.php</file>
+        </testsuite>
+        
+        <testsuite name="Permission Tests">
+            <file>./tests/PermissionTest.php</file>
+            <file>./tests/Adapter.php</file>
+        </testsuite>
+        
+        <testsuite name="Edge Case Tests">
+            <file>./tests/EdgeCaseTest.php</file>
+        </testsuite>
+        
+        <testsuite name="Integration Tests">
+            <file>./tests/IntegrationTest.php</file>
+        </testsuite>
+    </testsuites>
+    
+    <logging>
+        <junit outputFile="tests/reports/junit.xml"/>
+        <testdoxHtml outputFile="tests/reports/testdox.html"/>
+    </logging>
+    
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_CONNECTION" value="testing"/>
+    </php>
+</phpunit>

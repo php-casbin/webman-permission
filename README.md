@@ -128,6 +128,125 @@ if ($permission->enforce('eve', 'articles', 'edit')) {
 * [Casbin权限实战：如何使用自定义匹配函数](https://www.bilibili.com/video/BV1dq4y1Z78g/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 * [Webman实战教程：如何使用casbin权限控制](https://www.bilibili.com/video/BV1X34y1Q7ZH/?vd_source=a9321be9ed112f8d6fdc8ee87640be1b)
 
+# 测试
+
+## 测试套件
+
+本项目包含完整的单元测试套件，覆盖了以下方面：
+
+### 测试文件结构
+
+```
+tests/
+├── Adapter.php                    # 适配器基础测试
+├── PermissionTest.php            # Permission类测试
+├── AdapterTest.php                # 适配器详细测试
+├── EdgeCaseTest.php              # 边界情况测试
+├── IntegrationTest.php            # 集成测试
+├── LaravelDatabase/
+│   ├── LaravelDatabaseAdapterTest.php
+│   └── TestCase.php
+├── ThinkphpDatabase/
+│   ├── DatabaseAdapterTest.php
+│   └── TestCase.php
+└── config/
+    └── plugin/
+        └── casbin/
+            └── webman-permission/
+                └── permission.php
+```
+
+### 测试覆盖范围
+
+1. **基础功能测试**
+   - 权限添加、删除、检查
+   - 角色分配、移除
+   - 策略管理
+
+2. **适配器测试**
+   - 数据库操作
+   - 过滤器功能
+   - 批量操作
+   - 事务处理
+
+3. **边界情况测试**
+   - 空值处理
+   - 特殊字符
+   - 大数据量
+   - 性能测试
+
+4. **集成测试**
+   - RBAC完整流程
+   - 域权限控制
+   - 多驱动支持
+   - 复杂业务场景
+
+5. **错误处理测试**
+   - 异常情况
+   - 无效输入
+   - 并发访问
+
+### 运行测试
+
+```bash
+# 运行所有测试
+php vendor/bin/phpunit tests/
+
+# 运行特定测试文件
+php vendor/bin/phpunit tests/PermissionTest.php
+
+# 运行特定测试方法
+php vendor/bin/phpunit --filter testAddPermissionForUser tests/PermissionTest.php
+
+# 生成测试覆盖率报告
+php vendor/bin/phpunit --coverage-html coverage tests/
+```
+
+### 测试要求
+
+- PHP >= 8.1
+- PHPUnit >= 9.0
+- 数据库连接
+- Redis连接
+
+### 测试环境配置
+
+测试环境会自动创建以下数据表：
+- `casbin_rule` - 默认策略表
+- `other_casbin_rule` - 其他驱动策略表
+
+### 测试最佳实践
+
+1. **编写新测试**
+   - 继承适当的测试基类
+   - 遵循命名约定
+   - 添加必要的断言
+
+2. **测试数据管理**
+   - 使用 `setUp()` 和 `tearDown()` 方法
+   - 确保测试数据隔离
+   - 清理测试数据
+
+3. **测试覆盖**
+   - 覆盖正常流程
+   - 测试异常情况
+   - 验证边界条件
+
+## 贡献指南
+
+### 添加新功能测试
+
+1. 为新功能编写对应的测试用例
+2. 确保测试覆盖率达到要求
+3. 运行完整测试套件
+4. 提交代码前检查测试状态
+
+### 修复Bug测试
+
+1. 为Bug编写重现测试
+2. 修复Bug后验证测试通过
+3. 确保不影响现有功能
+
 # 感谢
 
 [Casbin](https://github.com/php-casbin/php-casbin)，你可以查看全部文档在其 [官网](https://casbin.org/) 上。
