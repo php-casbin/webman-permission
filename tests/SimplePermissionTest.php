@@ -20,7 +20,8 @@ class SimplePermissionTest extends TestCase
                     'webman-permission' => [
                         'permission' => [
                             'default' => 'default',
-                            'default' => [
+                            'drivers' => [
+                                'default' => [
                                 'model' => [
                                     'config_type' => 'text',
                                     'config_text' => '
@@ -78,7 +79,11 @@ m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
             ]
         ];
         
-        Permission::clear();
+        try {
+            Permission::clear();
+        } catch (\Exception $e) {
+            // 忽略清理时的错误
+        }
     }
 
     public function testBasicPermission()

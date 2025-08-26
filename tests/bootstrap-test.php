@@ -3,8 +3,10 @@
  * 测试环境bootstrap文件
  */
 
-// 设置基础路径
-define('BASE_PATH', dirname(__DIR__));
+// 设置基础路径（如果未定义）
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__));
+}
 
 // 自动加载
 require_once BASE_PATH . '/vendor/autoload.php';
