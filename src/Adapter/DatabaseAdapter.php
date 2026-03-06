@@ -104,11 +104,17 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
     {
         $rows = $this->model->field(['ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5'])->select()->toArray();
         foreach ($rows as $row) {
-            // $line = implode(', ', array_filter(array_slice($row, 1), function ($val) {
-            //     return '' != $val && !is_null($val);
-            // }));
-            // $this->loadPolicyLine(trim($line), $model);
-            $this->loadPolicyArray($this->filterRule($row), $model);
+            // 确保只使用指定的字段，避免 think-orm 4.0 返回额外字段
+            $filteredRow = [
+                'ptype' => $row['ptype'] ?? '',
+                'v0' => $row['v0'] ?? '',
+                'v1' => $row['v1'] ?? '',
+                'v2' => $row['v2'] ?? '',
+                'v3' => $row['v3'] ?? '',
+                'v4' => $row['v4'] ?? '',
+                'v5' => $row['v5'] ?? '',
+            ];
+            $this->loadPolicyArray($this->filterRule($filteredRow), $model);
         }
     }
 
@@ -379,15 +385,22 @@ class DatabaseAdapter implements Adapter, UpdatableAdapter, BatchAdapter, Filter
         } else {
             throw new InvalidFilterTypeException('invalid filter type');
         }
-        $rows = $instance->select()->hidden(['id'])->toArray();
+        $rows = $instance->field(['ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5'])->select()->toArray();
         foreach ($rows as $row) {
-            $row = array_filter($row, function ($value) {
+            // 确保只使用指定的字段，避免 think-orm 4.0 返回额外字段
+            $filteredRow = [
+                'ptype' => $row['ptype'] ?? '',
+                'v0' => $row['v0'] ?? '',
+                'v1' => $row['v1'] ?? '',
+                'v2' => $row['v2'] ?? '',
+                'v3' => $row['v3'] ?? '',
+                'v4' => $row['v4'] ?? '',
+                'v5' => $row['v5'] ?? '',
+            ];
+            $filteredRow = array_filter($filteredRow, function ($value) {
                 return !is_null($value) && $value !== '';
             });
-            $line = implode(', ', array_filter($row, function ($val) {
-                return '' != $val && !is_null($val);
-            }));
-            $this->loadPolicyLine(trim($line), $model);
+            $this->loadPolicyArray($this->filterRule($filteredRow), $model);
         }
         $this->setFiltered(true);
     }
