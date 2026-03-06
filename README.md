@@ -357,6 +357,26 @@ if (is_null(static::$_manager)) {
 
 ## Troubleshooting
 
+### Think-ORM 4.0 Compatibility
+
+**Error:** `Object not contained in WeakMap` or `array_search(): Argument #2 ($haystack) must be of type array, null given`
+
+**Solution:** This package fully supports think-orm 4.0+. If you encounter WeakMap errors:
+
+1. Ensure you're using the latest version:
+```bash
+composer require casbin/webman-permission:^2.4
+```
+
+2. For detailed information, see:
+   - [Think-ORM 4.0 Fix Guide](./THINK_ORM_4_FIX.md)
+   - [Think-ORM Compatibility Guide](./THINK_ORM_COMPATIBILITY.md)
+
+**Supported Versions:**
+- ✅ think-orm 2.0.53+
+- ✅ think-orm 3.x
+- ✅ think-orm 4.0.30+
+
 ### Laravel Driver Error
 
 **Error:** `Call to a member function connection() on null`

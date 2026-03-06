@@ -44,10 +44,14 @@ class RuleModel extends Model
     public function __construct(array $data = [], ?string $driver = null)
     {
         $this->driver = $driver;
+
+        // 必须先调用父类构造函数，确保 WeakMap 初始化（think-orm 4.0+）
+        parent::__construct($data);
+
+        // 再设置其他属性，避免触发 __set() 时 WeakMap 未初始化
         $this->connection = $this->config('database.connection') ?: '';
         $this->table = $this->config('database.rules_table');
         $this->name = $this->config('database.rules_name');
-        parent::__construct($data);
     }
 
     /**
