@@ -45,16 +45,25 @@ class RuleModel extends Model
     {
         $this->driver = $driver;
 
-        // 必须先调用父类构造函数，确保 WeakMap 初始化（think-orm 4.0+）
+        // 调用父类构造函数，确保 WeakMap 初始化（think-orm 4.0+）
         parent::__construct($data);
+    }
 
-        // 再设置其他属性，避免触发 __set() 时 WeakMap 未初始化
-        $this->connection = $this->config('database.connection') ?: '';
-        $this->table = $this->config('database.rules_table');
+    /**
+     * 模型初始化
+     * @return void
+     */
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        // 使用 setOption 方法设置模型属性（think-orm 4.0 推荐方式）
+        $this->setOption('connection', $this->config('database.connection') ?: '');
+        $this->setOption('table', $this->config('database.rules_table'));
 
         // 如果 rules_name 为 null，使用 rules_table 作为表名
         $rulesName = $this->config('database.rules_name');
-        $this->name = $rulesName ?: $this->config('database.rules_table');
+        $this->setOption('name', $rulesName ?: $this->config('database.rules_table'));
     }
 
     /**
