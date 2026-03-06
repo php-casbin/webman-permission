@@ -50,13 +50,11 @@ class RuleModel extends Model
     }
 
     /**
-     * 模型初始化
+     * 模型初始化（think-orm 提供的钩子方法）
      * @return void
      */
-    protected function initialize(): void
+    protected function init(): void
     {
-        parent::initialize();
-
         // 使用 setOption 方法设置模型属性（think-orm 4.0 推荐方式）
         $this->setOption('connection', $this->config('database.connection') ?: '');
         $this->setOption('table', $this->config('database.rules_table'));
