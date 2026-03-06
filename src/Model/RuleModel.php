@@ -51,7 +51,10 @@ class RuleModel extends Model
         // 再设置其他属性，避免触发 __set() 时 WeakMap 未初始化
         $this->connection = $this->config('database.connection') ?: '';
         $this->table = $this->config('database.rules_table');
-        $this->name = $this->config('database.rules_name');
+
+        // 如果 rules_name 为 null，使用 rules_table 作为表名
+        $rulesName = $this->config('database.rules_name');
+        $this->name = $rulesName ?: $this->config('database.rules_table');
     }
 
     /**
