@@ -68,11 +68,11 @@ class RuleModel extends Model
      * Gets config value by key.
      *
      * @param string|null $key
-     * @param null $default
+     * @param mixed $default
      *
      * @return mixed
      */
-    protected function config(string $key = null, $default = null)
+    protected function config(?string $key = null, mixed $default = null)
     {
         $driver = $this->driver ?? config('plugin.casbin.webman-permission.permission.default');
         return config('plugin.casbin.webman-permission.permission.' . $driver . '.' . $key, $default);
