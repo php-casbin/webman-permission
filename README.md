@@ -176,7 +176,7 @@ if ($permission->enforce('eve', 'articles', 'edit')) {
 }
 ```
 
-For more API details, refer to the [Casbin API Documentation](https://casbin.org/docs/en/management-api).
+For more API details, refer to the [Casbin API Documentation](https://casbin.apache.org/docs/management-api/).
 
 ---
 
@@ -313,7 +313,7 @@ The test environment automatically creates the following tables:
 
 ## Credits
 
-Built on top of [Casbin](https://github.com/php-casbin/php-casbin). For full documentation, visit the [official website](https://casbin.org/).
+Built on top of [Casbin](https://github.com/php-casbin/php-casbin). For full documentation, visit the [official website](https://casbin.apache.org/).
 
 ---
 
