@@ -176,7 +176,7 @@ if ($permission->enforce('eve', 'articles', 'edit')) {
 }
 ```
 
-For more API details, refer to the [Casbin API Documentation](https://casbin.org/docs/en/management-api).
+For more API details, refer to the [Casbin API Documentation](https://casbin.apache.org/).
 
 ---
 
